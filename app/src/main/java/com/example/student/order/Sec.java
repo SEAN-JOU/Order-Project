@@ -17,6 +17,9 @@ public class Sec extends AppCompatActivity implements View.OnClickListener{
         btnWaiter = (ImageButton) findViewById(R.id.waiter);
         btnChef = (ImageButton) findViewById(R.id.chef);
         btnCashier = (ImageButton) findViewById(R.id.cashier);
+        btnWaiter.setOnClickListener(this);
+        btnChef.setOnClickListener(this);
+        btnCashier.setOnClickListener(this);
     }
 
     //測試push
