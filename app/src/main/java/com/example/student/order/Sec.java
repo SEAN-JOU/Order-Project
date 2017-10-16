@@ -16,4 +16,6 @@ public class Sec extends AppCompatActivity {
         btnCashier = (Button) findViewById(R.id.cashier);
     }
 
+    //測試push
+
 }
