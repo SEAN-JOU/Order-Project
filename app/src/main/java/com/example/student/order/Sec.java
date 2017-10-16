@@ -18,6 +18,8 @@ public class Sec extends AppCompatActivity implements View.OnClickListener{
         btnCashier = (Button) findViewById(R.id.cashier);
     }
 
+    //測試push
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
