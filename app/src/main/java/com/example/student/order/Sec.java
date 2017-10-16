@@ -4,18 +4,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class Sec extends AppCompatActivity implements View.OnClickListener{
-    private Button btnWaiter, btnChef, btnCashier;
+    private ImageButton btnWaiter, btnChef, btnCashier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sec);
-        btnWaiter = (Button) findViewById(R.id.waiter);
-        btnChef = (Button) findViewById(R.id.chef);
-        btnCashier = (Button) findViewById(R.id.cashier);
+        btnWaiter = (ImageButton) findViewById(R.id.waiter);
+        btnChef = (ImageButton) findViewById(R.id.chef);
+        btnCashier = (ImageButton) findViewById(R.id.cashier);
     }
 
     //測試push
