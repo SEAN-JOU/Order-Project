@@ -1,9 +1,9 @@
 package com.example.student.order;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -28,13 +28,13 @@ public class Sec extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.waiter:
-                ToastMsg("You are Waiter!");
+                startActivity(new Intent(Sec.this,Waiter.class));
                 break;
             case R.id.chef:
-                ToastMsg("You are Chef!");
+                startActivity(new Intent(Sec.this,Chef.class));
                 break;
             case R.id.cashier:
-                ToastMsg("You are Cashier!");
+                startActivity(new Intent(Sec.this,Cashier.class));
                 break;
         }
     }

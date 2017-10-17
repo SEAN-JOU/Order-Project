@@ -16,7 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Sec"></activity>
+        <activity android:name=".Sec" />
+        <activity android:name=".Waiter" />
+        <activity android:name=".Chef" />
+        <activity android:name=".Cashier"></activity>
     </application>
 
 </manifest>
