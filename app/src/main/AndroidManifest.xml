@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -19,7 +19,9 @@
         <activity android:name=".Sec" />
         <activity android:name=".Waiter" />
         <activity android:name=".Chef" />
-        <activity android:name=".Cashier"></activity>
+        <activity android:name=".Cashier" />
+        <activity android:name=".SeatItem" />
+        <activity android:name=".Menu"></activity>
     </application>
 
 </manifest>
