@@ -50,7 +50,7 @@ public class ScrollFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         Intent in=new Intent();
         in.putExtra("seatNo",seatNumber.getText().toString());
-        in.setClass(getActivity(),Menu.class);
+        in.setClass(getActivity(),OrderActivity.class);
         startActivity(in);
     }
     public void setSeatNumber(CharSequence seatNo){

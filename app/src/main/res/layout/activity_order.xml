@@ -5,7 +5,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background3_1"
     tools:context="com.example.student.order.OrderActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDate"
+            android:textColor="#2d2d2d"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2.5"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:text="單號："/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:text="10220001"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2.5"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:text="座位號："/>
+            <TextView
+                android:id="@+id/tableNumber_seatPage"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:text="A1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3.5"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:text="員工編號："/>
+            <TextView
+                android:id="@+id/txtNumber"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:hint="001" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3.5"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:text="員工姓名："/>
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:hint="xxxx"/>
+        </LinearLayout>
+
+    </LinearLayout>
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,8 +118,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/meal_item_list"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@android:color/white"
         android:id="@+id/order_item_list"/>
+    <Button
+        android:id="@+id/btnGoOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="確定點單"
+        android:onClick="onOrderClick"/>
 </LinearLayout>

@@ -96,7 +96,14 @@ public class MealItemAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             Log.d(TAG, v.getId() + itemTitles[position]);
-            ((OrderActivity)activity).addOrder(itemTitles[position]);
+            OrderItems orderItems = new OrderItems();
+            orderItems.strItem = itemTitles[position];
+            orderItems.i_money = Integer.valueOf(itemMoney[position]);
+            orderItems.i_table = 1;
+            orderItems.strPosition = "A";
+            orderItems.str_remarks = "";
+
+            ((OrderActivity)activity).addOrder(orderItems);
         }
     }
 }

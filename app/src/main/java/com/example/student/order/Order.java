@@ -18,4 +18,6 @@ public class Order {
     public int i_money; //總金額
     public String str_waiter;   //點單員編
     public String str_cashier;  //結帳員編
+    public String str_customer; //外帶客人姓名
+    public String str_customer_tel; //外帶客人電話
 }
