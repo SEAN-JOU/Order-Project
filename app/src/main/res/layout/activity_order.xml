@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.student.order.OrderActivity">
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radioSalad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="沙拉"
+            android:onClick="onMealSelect"/>
+
+        <RadioButton
+            android:id="@+id/radioMainMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="主餐"
+            android:onClick="onMealSelect"/>
+
+
+        <RadioButton
+            android:id="@+id/radioDessert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="甜點"
+            android:onClick="onMealSelect"/>
+
+        <RadioButton
+            android:id="@+id/radioDrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="飲料"
+            android:onClick="onMealSelect"/>
+    </RadioGroup>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/meal_item_list"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/order_item_list"/>
+</LinearLayout>

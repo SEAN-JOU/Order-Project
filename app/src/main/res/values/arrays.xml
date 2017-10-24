@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="salad"> <!--沙拉 -->
+        <item>凱薩沙拉</item>
+        <item>雞肉沙拉</item>
+        <item>水果沙拉</item>
+        <item>和風沙拉</item>
+        <item>鮭魚卵沙拉</item>
+        <item>地獄沙拉</item>
+    </string-array>
+    <string-array name="salad_money">
+        <item>150</item>
+        <item>180</item>
+        <item>160</item>
+        <item>160</item>
+        <item>200</item>
+        <item>120</item>
+    </string-array>
+    <string-array name="main_meal"> <!--主餐 -->
+        <item>牛排</item>
+        <item>雞排</item>
+        <item>豬排</item>
+        <item>羊排</item>
+        <item>義大利麵</item>
+    </string-array>
+    <string-array name="main_meal_money">
+        <item>220</item>
+        <item>200</item>
+        <item>200</item>
+        <item>220</item>
+        <item>180</item>
+    </string-array>
+    <string-array name="dessert"> <!--甜點 -->
+        <item>布丁</item>
+        <item>紅豆豆花</item>
+        <item>起司蛋糕</item>
+        <item>雪花冰</item>
+        <item>巧克力脆片</item>
+        <item>奶酪</item>
+    </string-array>
+    <string-array name="dessert_money">
+        <item>60</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>50</item>
+        <item>70</item>
+    </string-array>
+    <string-array name="drink"> <!--飲料 -->
+        <item>紅茶</item>
+        <item>綠茶</item>
+        <item>奶茶</item>
+        <item>青草茶</item>
+        <item>烏龍茶</item>
+        <item>白開水</item>
+    </string-array>
+    <string-array name="drink_money">
+        <item>50</item>
+        <item>50</item>
+        <item>60</item>
+        <item>50</item>
+        <item>50</item>
+        <item>30</item>
+    </string-array>
+</resources>
