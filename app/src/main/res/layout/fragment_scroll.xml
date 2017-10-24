@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#2d2d2d"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:text="座位1"/>
         <ListView
             android:id="@+id/seatOrderList"
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#99019e94"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:text="客人尚未點菜"/>
     </LinearLayout>
 </FrameLayout>

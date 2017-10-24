@@ -84,7 +84,7 @@ public class Waiter extends AppCompatActivity {
         for(int i=0; i<tabHost_table.getTabWidget().getTabCount();i++){
             TextView tv=tabHost_table.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(parseColor("#ffffff"));
-            tv.setTextSize(20);
+            tv.setTextSize(25);
             tabHost_table.getTabWidget().getChildAt(tabHost_table.getCurrentTab()).setBackgroundColor(parseColor("#99fdad0c"));
             tabHost_table.getTabWidget().getChildAt(i).getLayoutParams().height = 140;
             if(i==0){

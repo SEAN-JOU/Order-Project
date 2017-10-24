@@ -92,53 +92,106 @@
         </LinearLayout>
     </LinearLayout>
     <!--座位列表-->
-    <LinearLayout
-            android:orientation="vertical"
+    <TabHost
+        android:id="@+id/tabHost_seat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-            <fragment
-                android:id="@+id/seat1"
-                android:name="com.example.student.order.ScrollFragment"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                tools:layout="@layout/fragment_scroll" />
-            <fragment
-                android:id="@+id/seat2"
-                android:name="com.example.student.order.ScrollFragment"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginBottom="10dp"
-                tools:layout="@layout/fragment_scroll" />
-            <fragment
-                android:id="@+id/seat3"
-                android:name="com.example.student.order.ScrollFragment"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginBottom="10dp"
-                tools:layout="@layout/fragment_scroll" />
-            <fragment
-                android:id="@+id/seat4"
-                android:name="com.example.student.order.ScrollFragment"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginBottom="10dp"
-                tools:layout="@layout/fragment_scroll" />
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/seatTab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+                    <fragment
+                        android:id="@+id/seat1"
+                        android:name="com.example.student.order.ScrollFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        tools:layout="@layout/fragment_scroll" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/seatTab2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+                    <fragment
+                        android:id="@+id/seat2"
+                        android:name="com.example.student.order.ScrollFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        tools:layout="@layout/fragment_scroll" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/seatTab3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+                    <fragment
+                        android:id="@+id/seat3"
+                        android:name="com.example.student.order.ScrollFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        tools:layout="@layout/fragment_scroll" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/seatTab4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+                    <fragment
+                        android:id="@+id/seat4"
+                        android:name="com.example.student.order.ScrollFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        tools:layout="@layout/fragment_scroll" />
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
+    </TabHost>
     <!--送出按鈕-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
         <Button
@@ -146,7 +199,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/loginbtn"
             android:textColor="#2d2d2d"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:text="確認送出"/>
     </LinearLayout>
 </LinearLayout>
