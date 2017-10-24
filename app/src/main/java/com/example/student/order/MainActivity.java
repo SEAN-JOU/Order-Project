@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         map3.put("PWD", "0003");
         map3.put("name", "cherry");
         member.add(map3);
+        //測試用免id/pwd登入，記得刪除
+        HashMap<String,Object> map4 = new HashMap<>();
+        map4.put("id","000");
+        map4.put("PWD", "");
+        map4.put("name", "測試帳號");
+        member.add(map4);
 
 
 
@@ -63,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(it);
                     finish();
                 }else{
-                    Toast.makeText(MainActivity.this,"test2",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"請確認輸入的帳號或密碼正確",Toast.LENGTH_SHORT).show();
 
                 }}});
         clear.setOnClickListener(new View.OnClickListener() {
