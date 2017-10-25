@@ -6,7 +6,7 @@ package com.example.student.order;
 
 //點菜內容
 public class OrderItems {
-    public int i_table; //桌號
+    public String strtable; //桌號
     public String strPosition;  //座位別
     public String strItem;  //點菜項目
     public int i_money; //金額

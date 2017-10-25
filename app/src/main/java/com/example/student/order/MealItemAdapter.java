@@ -99,8 +99,8 @@ public class MealItemAdapter extends BaseAdapter {
             OrderItems orderItems = new OrderItems();
             orderItems.strItem = itemTitles[position];
             orderItems.i_money = Integer.valueOf(itemMoney[position]);
-            orderItems.i_table = 1;
-            orderItems.strPosition = "A";
+            orderItems.strtable = "";
+            orderItems.strPosition = "";
             orderItems.str_remarks = "";
 
             ((OrderActivity)activity).addOrder(orderItems);
