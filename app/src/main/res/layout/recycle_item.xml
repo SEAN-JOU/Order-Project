@@ -6,30 +6,38 @@
 
     <TextView
         android:id="@+id/single"
-        android:layout_width="80dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.55"
-        android:textSize="20dp" />
+        android:layout_weight="5"
+        android:textColor="#2d2d2d"
+        android:textSize="20sp"
+        android:text="10610250001"/>
 
     <TextView
         android:id="@+id/clientname"
-        android:layout_width="80dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.65"
-        android:textSize="20dp" />
+        android:layout_weight="3"
+        android:textColor="#2d2d2d"
+        android:textSize="20sp"
+        android:text="張小姐" />
 
     <TextView
         android:id="@+id/money"
-        android:layout_width="80dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="20dp" />
+        android:layout_weight="4"
+        android:textColor="#2d2d2d"
+        android:textSize="20sp"
+        android:text="100元" />
 
     <TextView
         android:id="@+id/status"
-        android:layout_width="30dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.82"
-        android:textSize="20dp" />
+        android:layout_weight="3"
+        android:textColor="#2d2d2d"
+        android:textSize="20sp"
+        android:text="待結帳" />
 
 </LinearLayout>

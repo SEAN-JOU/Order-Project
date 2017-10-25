@@ -1,6 +1,7 @@
 package com.example.student.order;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -51,6 +52,11 @@ public class OutCashierAdapter extends BaseAdapter {
         single.setText(String.valueOf(orders.get(i).getI_Order()));
         clientname.setText(orders.get(i).getStr_customer());
         money.setText(String.valueOf(orders.get(i).getI_money()));
+        if(i%2==1){
+            v.setBackgroundColor(Color.parseColor("#90ff504d"));
+        }else {
+            v.setBackgroundColor(Color.parseColor("#90E6E6E6"));
+        }
 
         switch(orders.get(i).i_status){
             case 1:
@@ -58,8 +64,10 @@ public class OutCashierAdapter extends BaseAdapter {
                 break;
             case 2:
                 str_status="待結帳";
+                break;
             case 3:
                 str_status="已結帳";
+                break;
         }
         status.setText(str_status);
         return v;

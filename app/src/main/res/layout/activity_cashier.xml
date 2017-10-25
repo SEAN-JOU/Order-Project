@@ -9,72 +9,62 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:gravity="right"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1">
-
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:padding="10dp"
+        android:background="@drawable/background3_1"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/txtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
+            android:textColor="#2d2d2d"
+            android:textSize="20sp"
+            android:layout_marginBottom="5dp"/>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="員工編號：" />
-
-        <TextView
-            android:id="@+id/txtNumber"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:textSize="20sp"
+                android:text="員工編號：" />
+            <TextView
+                android:id="@+id/txtNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:textSize="20sp"
+                android:hint="001" />
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="001" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="員工姓名：" />
-
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="xxxx" />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:textSize="20sp"
+                android:text="員工姓名：" />
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#2d2d2d"
+                android:textSize="20sp"
+                android:hint="xxxx" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <TabHost
         android:id="@+id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="51dp"
-        android:layout_weight="5.96"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1">
+        android:layout_height="0dp"
+        android:layout_weight="4">
 
         <LinearLayout
             android:id="@+id/ggg"
@@ -93,29 +83,35 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/tab1"
+                    android:id="@+id/tabIn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <ListView
                         android:id="@+id/outlistview"
+                        android:background="@drawable/editborder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3" />
+                        android:layout_weight="3"
+                        android:layout_margin="10dp"
+                        android:padding="5dp"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tab2"
+                    android:id="@+id/tabOut"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <ListView
                         android:id="@+id/inlistview"
+                        android:background="@drawable/editborder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3" />
+                        android:layout_weight="3"
+                        android:layout_margin="10dp"
+                        android:padding="5dp"/>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
