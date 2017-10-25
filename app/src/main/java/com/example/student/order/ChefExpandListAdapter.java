@@ -2,10 +2,12 @@ package com.example.student.order;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,11 +19,17 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
     private ArrayList<String> ListTitle;
     private HashMap<String,ArrayList<String>> ListItem;
     private CheckBox listContent;
+    private HashMap<Integer, boolean[]> CheckStates;
+    private viewGroupHolder vgh;
+    private viewChildHolder vH;
+    private int gp;
+    private int cp;
 
     public ChefExpandListAdapter(Activity activity,ArrayList listTitle,HashMap listItem){
         this.act=activity;
         this.ListTitle=listTitle;
         this.ListItem=listItem;
+        CheckStates=new HashMap<Integer, boolean[]>();
     }
 
 
@@ -70,17 +78,56 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
+    public View getChildView(int groupPosition, final int childPosition, boolean b, View view, ViewGroup viewGroup) {
         View v=act.getLayoutInflater().inflate(R.layout.cook_list_layout,null);
-        listContent=(CheckBox)v.findViewById(R.id.listContent);
-        listContent.setText(ListItem.get(ListTitle.get(groupPosition)).get(childPosition));
+        vH=new viewChildHolder();
+        //listContent=(CheckBox)v.findViewById(R.id.listContent);
+        //listContent.setText(ListItem.get(ListTitle.get(groupPosition)).get(childPosition));
+        vH.listCB=v.findViewById(R.id.listContent);
+        vH.listCB.setText(ListItem.get(ListTitle.get(groupPosition)).get(childPosition));
         //設定隔行背景色
         if(childPosition%2==1){
-            listContent.setBackgroundColor(Color.parseColor("#80ff504d"));
+            vH.listCB.setBackgroundColor(Color.parseColor("#80ff504d"));
         }else {
-            listContent.setBackgroundColor(Color.parseColor("#90E6E6E6"));
+            vH.listCB.setBackgroundColor(Color.parseColor("#90E6E6E6"));
         }
-        //使用listener 要抓到被點的child的位置
+
+        gp=groupPosition;
+        cp=childPosition;
+
+        vH.listCB.setOnCheckedChangeListener(null);
+
+        if (CheckStates.containsKey(gp)) {
+            boolean getChecked[] = CheckStates.get(gp);
+            vH.listCB.setChecked(getChecked[cp]);
+
+        } else {
+            boolean getChecked[] = new boolean[getChildrenCount(gp)];
+            CheckStates.put(gp, getChecked);
+            vH.listCB.setChecked(false);
+        }
+
+        vH.listCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+
+                    boolean getChecked[] =CheckStates.get(gp);
+                    getChecked[cp] = isChecked;
+                    CheckStates.put(gp, getChecked);
+                    vH.listCB.setEnabled(false);
+                    Log.d("child","child:"+cp);
+
+                } else {
+
+                    boolean getChecked[] = CheckStates.get(gp);
+                    getChecked[cp] = isChecked;
+                    CheckStates.put(gp, getChecked);
+                }
+            }
+        });
 
         return v;
     }
@@ -90,3 +137,11 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 }
+
+    class viewGroupHolder{
+        TextView listTV;
+    }
+
+    class viewChildHolder{
+         CheckBox listCB;
+    }
