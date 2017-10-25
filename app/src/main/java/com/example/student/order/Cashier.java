@@ -19,11 +19,13 @@ public class Cashier extends AppCompatActivity {
     private TextView txtNumber, txtName, txtDate;
     TabHost mTabHost;
     ListView inlistview,outlistview;
-    InCashierAdapter incashierAdapter,adapter;
+    InCashierAdapter incashierAdapter;
     OutCashierAdapter outcashierAdapter;
     ArrayList<Order> out_list,in_list;
     Order out_orderlist,in_orderlist;
     int in_index,out_index;
+    int RECODE_IN=1001;
+    int RECODE_OUT=1002;
 
 
 
@@ -90,29 +92,27 @@ public class Cashier extends AppCompatActivity {
 
 
 
-        inlistview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        inlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int a, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int a, long l) {
 
                 in_index=a;
                 Intent it =new Intent();
                 it.setClass(Cashier.this,Menu_context.class);
-                startActivityForResult(it,101);
+                startActivityForResult(it,RECODE_IN);
 
-            return true;
             }});
 
-        outlistview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        outlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
                 out_index=i;
-                Intent it =new Intent();
-                it.setClass(Cashier.this,Menu_context.class);
-                startActivityForResult(it,100);
+                Intent it2 =new Intent();
+                it2.setClass(Cashier.this,Menu_context.class);
+                startActivityForResult(it2,RECODE_OUT);
 
-                return true;
             }});
 
 
@@ -127,14 +127,14 @@ public class Cashier extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK && requestCode == 100){
+        if(resultCode == RESULT_OK && requestCode == RECODE_OUT){
 
            int status_out =Integer.valueOf(data.getStringExtra("已結帳"));
             ((Order)out_list.get(out_index)).i_status=status_out;
             outcashierAdapter.notifyDataSetChanged();
         }
 
-         else if(resultCode == RESULT_OK && requestCode == 101) {
+         else if(resultCode == RESULT_OK && requestCode == RECODE_IN) {
 
             int status_in =Integer.valueOf(data.getStringExtra("已結帳"));
             ((Order)in_list.get(in_index)).i_status=status_in;
