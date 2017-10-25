@@ -1,13 +1,14 @@
 package com.example.student.order;
 
+import android.app.ExpandableListActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Chef extends AppCompatActivity {
+public class Chef extends ExpandableListActivity {
     private ExpandableListView cookList;
     private ChefExpandListAdapter adapter;
     private ArrayList<String> cook_listGroup=new ArrayList<>();
@@ -41,4 +42,11 @@ public class Chef extends AppCompatActivity {
         cookList.setAdapter(adapter);
 
     }
+
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        
+        return super.onChildClick(parent, v, groupPosition, childPosition, id);
+    }
+
 }
