@@ -110,7 +110,7 @@ public class Waiter extends AppCompatActivity {
     }
 
     public void takeAwayOk(View view) {
-        startActivity(new Intent(Waiter.this,Menu.class));
+        startActivity(new Intent(Waiter.this,OrderActivity.class));
 
     }
     //設定桌號
