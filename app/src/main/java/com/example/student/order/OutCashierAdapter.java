@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class OutCashierAdapter extends BaseAdapter {
     Activity activity;
-    ArrayList<Order> orders;
+    ArrayList<Order> orders = new ArrayList<>();
     String str_status;
 
     public OutCashierAdapter(Activity activity, ArrayList<Order> orders){
@@ -49,7 +49,7 @@ public class OutCashierAdapter extends BaseAdapter {
         TextView money=(TextView)v.findViewById(R.id.money);
         TextView status=(TextView)v.findViewById(R.id.status);
 
-        single.setText(String.valueOf(orders.get(i).getI_Order()));
+        single.setText(orders.get(i).getI_Order());
         clientname.setText(orders.get(i).getStr_customer());
         money.setText(String.valueOf(orders.get(i).getI_money()));
         if(i%2==1){

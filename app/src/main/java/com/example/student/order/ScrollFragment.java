@@ -1,7 +1,6 @@
 package com.example.student.order;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -43,16 +42,18 @@ public class ScrollFragment extends Fragment implements View.OnClickListener {
         seatOrderList=(ListView)getView().findViewById(R.id.seatOrderList);
         seatContainer=(LinearLayout)getView().findViewById(R.id.seatContainer);
         seatContainer.setClickable(true);
-        seatContainer.setOnClickListener(this);
+        //seatContainer.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        Intent in=new Intent();
+        /*Intent in=new Intent();
         in.putExtra("seatNo",seatNumber.getText().toString());
         in.setClass(getActivity(),OrderActivity.class);
-        startActivity(in);
+        //startActivity(in);
+        startActivityForResult(in, 1);*/
     }
+
     public void setSeatNumber(CharSequence seatNo){
         seatNumber.setText(seatNo);
     }

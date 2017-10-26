@@ -60,11 +60,7 @@ public class Cashier extends AppCompatActivity {
         mTabHost.setup();
 
         out_list=new ArrayList<>();
-        out_orderlist=new Order(1061025001,"王小名",100,3);
-        out_list.add(out_orderlist);
-        out_orderlist=new Order(1061025008,"陳大力",1500,2);
-        out_list.add(out_orderlist);
-        out_orderlist=new Order(1061025008,"楊小葉",1100,2);
+        out_orderlist=new Order("1061025001","王小名",100,3);
         out_list.add(out_orderlist);
         outcashierAdapter=new OutCashierAdapter(this,out_list);
         outlistview.setAdapter(outcashierAdapter);
@@ -72,17 +68,13 @@ public class Cashier extends AppCompatActivity {
         //外帶類型
 
         in_list=new ArrayList<>();
-        in_orderlist=new Order("A",1061025002,100,2);
+        in_orderlist=new Order("A","1061025002",100,2);
         in_list.add(in_orderlist);
-        in_orderlist=new Order("B",1061025003,200,2);
+        in_orderlist=new Order("B","1061025003",200,2);
         in_list.add(in_orderlist);
-        in_orderlist=new Order("C",1061025004,300,2);
+        in_orderlist=new Order("C","1061025004",300,2);
         in_list.add(in_orderlist);
-        in_orderlist=new Order("D",1061025005,400,2);
-        in_list.add(in_orderlist);
-        in_orderlist=new Order("E",1061025006,1000,3);
-        in_list.add(in_orderlist);
-        in_orderlist=new Order("F",1061025007,10000,3);
+        in_orderlist=new Order("D","1061025005",400,2);
         in_list.add(in_orderlist);
 
         incashierAdapter=new InCashierAdapter(this,in_list);
@@ -130,12 +122,12 @@ public class Cashier extends AppCompatActivity {
 
         if(resultCode == RESULT_OK && requestCode == RECODE_OUT){
 
-           int status_out =Integer.valueOf(data.getStringExtra("已結帳"));
+            int status_out =Integer.valueOf(data.getStringExtra("已結帳"));
             ((Order)out_list.get(out_index)).i_status=status_out;
             outcashierAdapter.notifyDataSetChanged();
         }
 
-         else if(resultCode == RESULT_OK && requestCode == RECODE_IN) {
+        else if(resultCode == RESULT_OK && requestCode == RECODE_IN) {
 
             int status_in =Integer.valueOf(data.getStringExtra("已結帳"));
             ((Order)in_list.get(in_index)).i_status=status_in;
@@ -186,7 +178,6 @@ public class Cashier extends AppCompatActivity {
     }
 
 }
-
 
 
 
