@@ -20,12 +20,12 @@
         <activity android:name=".Waiter" />
         <activity android:name=".Menu_context"/>
         <activity android:name=".Chef" >
+
         </activity>
         <activity android:name=".Cashier" >
 
         </activity>
         <activity android:name=".SeatItem" />
-        <activity android:name=".Menu" />
         <activity android:name=".OrderActivity"/>
     </application>
 

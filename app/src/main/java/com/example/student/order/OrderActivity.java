@@ -2,6 +2,8 @@ package com.example.student.order;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentProvider;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,9 +15,11 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -30,20 +34,39 @@ public class OrderActivity extends Activity {
     private TextView txtNumber, txtName, txtDate, txtSetNum;
     private ListView listView_MealItem, listView_OrderItem;
     private String strSetNum, strTableNum;
+    public  String strCname,strCtel;
     private MealItemAdapter itemAdapter;
     ArrayList<OrderItems> itemArray;
     private orderItemAdapter adapter;
     private Button btnGoOrder;
     private Gson gson = new Gson();
+    Toast ttt;
+    LinearLayout inin,outout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+        inin=(LinearLayout)findViewById(R.id.inin);
+        outout=(LinearLayout)findViewById(R.id.outout);
         strSetNum = getIntent().getStringExtra("seatNo");
         strTableNum = getIntent().getStringExtra("tableNo");
+        strCname=getIntent().getExtras().getString("clientname");
+        strCtel=getIntent().getStringExtra("clienttel");
+        outorin();
         findViews();
         readSharePreferences();
+    }
+
+    private void outorin() {
+        if(strCname !=null && strCtel !=null) {
+            outout.setVisibility(View.VISIBLE);
+        }
+        else{
+            inin.setVisibility(View.VISIBLE);
+        }
+
     }
 
     public void onMealSelect(View v){
@@ -100,9 +123,11 @@ public class OrderActivity extends Activity {
                         .show();
             }
         });
+
+
         itemArray = new ArrayList();
         String strItems = getIntent().getStringExtra("itemArray");
-        if (strItems.length()>0){
+        if (strItems != null){
             OrderItems[] items;
             items = gson.fromJson(strItems, OrderItems[].class);
             for(OrderItems a: items){
@@ -113,6 +138,7 @@ public class OrderActivity extends Activity {
             listView_OrderItem.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
+
 
         btnGoOrder = (Button) findViewById(R.id.btnGoOrder);
         //set Default menu item
@@ -136,20 +162,45 @@ public class OrderActivity extends Activity {
     }
 
     public void onOrderClick(View view){
-        for(int i=0; i< itemArray.size(); i++) {
-            itemArray.get(i).strPosition = strSetNum;
-            itemArray.get(i).strtable = strTableNum;
-            Log.w("OrderActivity----", itemArray.get(i).strItem + ":" + itemArray.get(i).str_remarks);
-        }
+        if(strCname ==null && strCtel ==null){
+            for(int i=0; i< itemArray.size(); i++) {
+                itemArray.get(i).strPosition = strSetNum;
+                itemArray.get(i).strtable = strTableNum;
+                Log.w("OrderActivity----", itemArray.get(i).strItem + ":" + itemArray.get(i).str_remarks);
+            }
 
-        String orderStr = gson.toJson(itemArray);
-        Log.d("order_itemString", orderStr);
-        Intent in = getIntent();
-        in.putExtra("order_itemString", orderStr);
-        //in.putExtra("order_items", itemArray);
-        setResult(RESULT_OK,in);
-        finish();
+            String orderStr = gson.toJson(itemArray);
+            Log.d("order_itemString", orderStr);
+            Intent in = getIntent();
+            in.putExtra("order_itemString", orderStr);
+            //in.putExtra("order_items", itemArray);
+            setResult(RESULT_OK,in);
+            finish();
+        }
+        else if(strCname !=null && strCtel !=null){/*外帶狀態*/
+
+        final AlertDialog.Builder Outoder =new AlertDialog.Builder(this);
+
+        Outoder.setTitle("確認客戶點單是否正確");
+
+        Outoder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                //firebase上傳的地方
+                startActivity(new Intent(OrderActivity.this,Waiter.class));
+
+            }});
+        Outoder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }});
+         Outoder.show();
+        }
     }
+
 
     class orderItemAdapter extends BaseAdapter{
         Activity activity;
