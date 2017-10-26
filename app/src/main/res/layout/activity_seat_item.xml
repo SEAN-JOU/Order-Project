@@ -28,6 +28,7 @@
                 android:textSize="20sp"
                 android:text="單號："/>
             <TextView
+                android:id="@+id/txtOrderNum"
                 android:layout_width="0dp"
                 android:layout_weight="4"
                 android:layout_height="wrap_content"

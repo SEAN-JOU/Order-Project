@@ -2,8 +2,6 @@ package com.example.student.order;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentProvider;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,8 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
@@ -31,7 +30,7 @@ import static android.content.ContentValues.TAG;
 import static com.example.student.order.R.id.editRemark;
 
 public class OrderActivity extends Activity {
-    private TextView txtNumber, txtName, txtDate, txtSetNum;
+    private TextView txtNumber, txtName, txtDate, txtSetNum, txtCname;
     private ListView listView_MealItem, listView_OrderItem;
     private String strSetNum, strTableNum;
     public  String strCname,strCtel;
@@ -40,7 +39,7 @@ public class OrderActivity extends Activity {
     private orderItemAdapter adapter;
     private Button btnGoOrder;
     private Gson gson = new Gson();
-    Toast ttt;
+    private boolean isOut = false;
     LinearLayout inin,outout;
 
 
@@ -59,12 +58,13 @@ public class OrderActivity extends Activity {
         readSharePreferences();
     }
 
+
     private void outorin() {
         if(strCname !=null && strCtel !=null) {
-            outout.setVisibility(View.VISIBLE);
+            isOut = true;
         }
         else{
-            inin.setVisibility(View.VISIBLE);
+            isOut = false;
         }
 
     }
@@ -91,14 +91,32 @@ public class OrderActivity extends Activity {
     }
 
     public void findViews(){
+        //日期
         txtDate = (TextView) findViewById(R.id.txtDate);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
         Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
         String strDate = formatter.format(curDate);
-        txtDate.setText(strDate);
-        txtSetNum = (TextView) findViewById(R.id.tableNumber_seatPage);
-        txtSetNum.setText(strSetNum);
+       txtDate.setText(strDate);
+
+        //訂單編號
+        TextView txtOrderNum = findViewById(R.id.txtOrderNum);
+        txtOrderNum.setText(getOrderNumber());
+
+        //座位號 or 外帶顧客名稱
+        if (isOut){
+            outout.setVisibility(View.VISIBLE);
+            txtCname = (TextView) findViewById(R.id.clientclient);
+            txtCname.setText(strCname);
+            inin.setVisibility(View.INVISIBLE);
+        } else {
+            inin.setVisibility(View.VISIBLE);
+            txtSetNum = (TextView) findViewById(R.id.tableNumber_seatPage);
+            txtSetNum.setText(strSetNum);
+            outout.setVisibility(View.INVISIBLE);
+        }
+        //員工編號
         txtNumber = (TextView) findViewById(R.id.txtNumber);
+        //員工姓名
         txtName = (TextView) findViewById(R.id.txtName);
 
         listView_MealItem = (ListView) findViewById(R.id.meal_item_list);
@@ -123,7 +141,6 @@ public class OrderActivity extends Activity {
                         .show();
             }
         });
-
 
         itemArray = new ArrayList();
         String strItems = getIntent().getStringExtra("itemArray");
@@ -162,7 +179,23 @@ public class OrderActivity extends Activity {
     }
 
     public void onOrderClick(View view){
-        if(strCname ==null && strCtel ==null){
+        if (isOut){ //外帶
+            final AlertDialog.Builder Outoder =new AlertDialog.Builder(this);
+            Outoder.setTitle("確認客戶點單是否正確");
+            Outoder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //firebase上傳的地方
+                    orderOut();
+                    startActivity(new Intent(OrderActivity.this, Waiter.class));
+                }});
+            Outoder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }});
+            Outoder.show();
+        } else{ //內用
             for(int i=0; i< itemArray.size(); i++) {
                 itemArray.get(i).strPosition = strSetNum;
                 itemArray.get(i).strtable = strTableNum;
@@ -177,28 +210,50 @@ public class OrderActivity extends Activity {
             setResult(RESULT_OK,in);
             finish();
         }
-        else if(strCname !=null && strCtel !=null){/*外帶狀態*/
+    }
 
-        final AlertDialog.Builder Outoder =new AlertDialog.Builder(this);
+    public void orderOut(){
+        Order thisOrder = new Order();
+        thisOrder.str_Order = getOrderNumber();
+        thisOrder.str_Date = new SimpleDateFormat("yyyyMMdd").format(System.currentTimeMillis());
+        thisOrder.str_Flag = 2; //(內用)
+        thisOrder.i_table = ""; //內用無桌號
+        thisOrder.people_number = "";   //內用無顧客人數
+        thisOrder.i_status = 1; //(訂單成立)
+        thisOrder.i_money = Cal_Order_out_Mondy();
+        thisOrder.str_waiter = txtNumber.getText().toString();
+        thisOrder.str_customer = strCname;
+        thisOrder.str_cashier = "";
+        thisOrder.str_customer_tel = strCtel;
+        ArrayList<ArrayList<OrderItems>> list = new ArrayList();
+        list.add(itemArray);
+        thisOrder.orderItems = list;
+        ArrayList<Order> orderArr = new ArrayList<>();
+        orderArr.add(thisOrder);
+        String OrderStr = gson.toJson(orderArr);
+        Log.w("SearItem->", OrderStr);
 
-        Outoder.setTitle("確認客戶點單是否正確");
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference order_Ref = database.getReference("order").child(thisOrder.str_Order);
+        order_Ref.setValue(OrderStr);
+    }
 
-        Outoder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                //firebase上傳的地方
-                startActivity(new Intent(OrderActivity.this,Waiter.class));
-
-            }});
-        Outoder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }});
-         Outoder.show();
+    public int Cal_Order_out_Mondy(){
+        int money = 0;
+        if (itemArray.size() > 0){
+            for(OrderItems a: itemArray){
+                money = money + a.i_money;
+            }
         }
+        return money;
+    }
+
+    public String getOrderNumber(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
+        String strDate = formatter.format(curDate);
+        return strDate;
     }
 
 

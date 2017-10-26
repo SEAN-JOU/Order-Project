@@ -21,7 +21,7 @@ import java.util.Date;
 import static android.graphics.Color.parseColor;
 
 public class SeatItem extends AppCompatActivity implements View.OnClickListener {
-    private TextView tableNumber_seatPage,employeeNumber,employeeName;
+    private TextView txtOrderNum, tableNumber_seatPage,employeeNumber,employeeName;
     private String tableNo;
     private TabHost tabHost_seat;
     private TabHost.TabSpec spec_s;
@@ -60,6 +60,8 @@ public class SeatItem extends AppCompatActivity implements View.OnClickListener 
     }
 
     public void initial(){
+        txtOrderNum = (TextView)findViewById(R.id.txtOrderNum);
+        txtOrderNum.setText(getOrderNumber());
         tableNumber_seatPage=(TextView)findViewById(R.id.tableNumber_seatPage);
         employeeNumber=(TextView)findViewById(R.id.employeeNumber);
         employeeName=(TextView)findViewById(R.id.employeeName);
@@ -187,9 +189,10 @@ public class SeatItem extends AppCompatActivity implements View.OnClickListener 
 
             // Write a message to the database
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference order_Ref = database.getReference("order").child(getOrderNumber());
+            DatabaseReference order_Ref = database.getReference("order").child(thisOrder.str_Order);
             order_Ref.setValue(OrderStr);
-            return;
+            //return;
+            finish();
         } else {
             Intent in=new Intent();
             in.putExtra("tableNo", tableNo);

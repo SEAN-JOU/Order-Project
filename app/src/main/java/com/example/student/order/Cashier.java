@@ -56,8 +56,8 @@ public class Cashier extends AppCompatActivity {
 
     public void findView(){
 
-        outlistview=(ListView)findViewById(R.id.inlistview);
-        inlistview=(ListView)findViewById(R.id.outlistview);
+        outlistview=(ListView)findViewById(R.id.outlistview);
+        inlistview=(ListView)findViewById(R.id.inlistview);
         txtDate = (TextView) findViewById(R.id.txtDate);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
         Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間

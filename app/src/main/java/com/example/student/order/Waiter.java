@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -124,11 +123,13 @@ public class Waiter extends AppCompatActivity {
 
     public void takeAwayOk(View view) {
         if(!customerName.getText().toString().equals("") && !customerTel.getText().toString().equals(""))
-        {Intent it =new Intent();
-        it.setClass(Waiter.this,OrderActivity.class);
-        it.putExtra("clientname",customerName.getText().toString());
-        it.putExtra("clienttel",customerTel.getText().toString());
-        startActivity(it);}
+        {
+            Intent it =new Intent();
+            it.setClass(Waiter.this,OrderActivity.class);
+            it.putExtra("clientname",customerName.getText().toString());
+            it.putExtra("clienttel",customerTel.getText().toString());
+            startActivity(it);
+        }
         else{
             Toast.makeText(Waiter.this,"請輸入完整資料",Toast.LENGTH_LONG).show();
         }
