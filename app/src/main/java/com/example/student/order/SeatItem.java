@@ -187,7 +187,7 @@ public class SeatItem extends AppCompatActivity implements View.OnClickListener 
 
             // Write a message to the database
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference order_Ref = database.getReference("order_"+ getOrderNumber());
+            DatabaseReference order_Ref = database.getReference("order").child(getOrderNumber());
             order_Ref.setValue(OrderStr);
             return;
         } else {

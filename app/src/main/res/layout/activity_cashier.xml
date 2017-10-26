@@ -89,7 +89,7 @@
                     android:orientation="horizontal">
 
                     <ListView
-                        android:id="@+id/outlistview"
+                        android:id="@+id/inlistview"
                         android:background="@drawable/editborder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -105,7 +105,7 @@
                     android:orientation="horizontal">
 
                     <ListView
-                        android:id="@+id/inlistview"
+                        android:id="@+id/outlistview"
                         android:background="@drawable/editborder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
