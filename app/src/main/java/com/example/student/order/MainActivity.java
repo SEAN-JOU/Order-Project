@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         member.add(map3);
         //測試用免id/pwd登入，記得刪除
         HashMap<String,Object> map4 = new HashMap<>();
-        map4.put("id","000");
+        map4.put("id","");
         map4.put("PWD", "");
         map4.put("name", "測試帳號");
         member.add(map4);

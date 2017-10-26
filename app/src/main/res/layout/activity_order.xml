@@ -7,78 +7,115 @@
     android:orientation="vertical"
     android:background="@drawable/background3_1"
     tools:context="com.example.student.order.OrderActivity">
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#2d2d2d" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtDate"
-            android:textColor="#2d2d2d"/>
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:textColor="#2d2d2d"
+            android:textSize="20sp"
+            android:text="單號："/>
+        <TextView
+            android:id="@+id/txtOrderNum"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:textColor="#2d2d2d"
+            android:textSize="20sp"
+            android:text="10220001"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/inin"
+            android:visibility="gone">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="2.5"
                 android:layout_height="wrap_content"
                 android:textColor="#2d2d2d"
-                android:text="單號："/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="4"
-                android:layout_height="wrap_content"
-                android:textColor="#2d2d2d"
-                android:text="10220001"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2.5"
-                android:layout_height="wrap_content"
-                android:textColor="#2d2d2d"
-                android:text="座位號："/>
+                android:textSize="20sp"
+                android:text="桌號："/>
             <TextView
                 android:id="@+id/tableNumber_seatPage"
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:layout_height="wrap_content"
                 android:textColor="#2d2d2d"
+                android:textSize="20sp"
                 android:text="A1"/>
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:id="@+id/outout"
+            android:visibility="gone">
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="3.5"
+                android:layout_weight="2.5"
                 android:layout_height="wrap_content"
                 android:textColor="#2d2d2d"
-                android:text="員工編號："/>
+                android:textSize="20sp"
+                android:text="顧客姓名："/>
             <TextView
-                android:id="@+id/txtNumber"
+                android:id="@+id/clientclient"
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
                 android:textColor="#2d2d2d"
-                android:hint="001" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="3.5"
-                android:layout_height="wrap_content"
-                android:textColor="#2d2d2d"
-                android:text="員工姓名："/>
-            <TextView
-                android:id="@+id/txtName"
-                android:layout_width="0dp"
-                android:layout_weight="4"
-                android:layout_height="wrap_content"
-                android:textColor="#2d2d2d"
-                android:hint="xxxx"/>
+                android:textSize="20sp"
+                android:text="A1"/>
         </LinearLayout>
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="員工編號："
+            android:textColor="#2d2d2d"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txtNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.3"
+            android:text="001"
+            android:textColor="#2d2d2d"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:text="姓名："
+            android:textColor="#2d2d2d"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Andy"
+            android:textColor="#2d2d2d"
+            android:textSize="20sp" />
     </LinearLayout>
     <RadioGroup
         android:layout_width="match_parent"
@@ -134,6 +171,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="確定點單"
+        android:text="點單"
         android:onClick="onOrderClick"/>
 </LinearLayout>

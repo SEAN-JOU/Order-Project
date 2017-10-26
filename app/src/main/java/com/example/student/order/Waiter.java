@@ -5,9 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,16 +24,24 @@ public class Waiter extends AppCompatActivity {
     private TabHost.TabSpec spec;
     private LinearLayout tab_eatIn,tab_takeAway;
     private tableFragment tableNo1,tableNo2,tableNo3,tableNo4,tableNo5,tableNo6,tableNo7,tableNo8,tableNo9;
+    DatabaseReference root;
+    EditText customerName,customerTel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiter);
+        customerName=(EditText)findViewById(R.id.customerName);
+        customerTel=(EditText)findViewById(R.id.customerTel);
+
         findView();
         readSharePreferences();
         tabSettings("eat in",R.id.tab_eatIn,"內用");
         tabSettings("take away",R.id.tab_takeAway,"外帶");
         changeTabBackgroundOnChanged();
+
+
+
     }
 
     @Override
@@ -110,8 +122,17 @@ public class Waiter extends AppCompatActivity {
     }
 
     public void takeAwayOk(View view) {
-        startActivity(new Intent(Waiter.this,OrderActivity.class));
-
+        if(!customerName.getText().toString().equals("") && !customerTel.getText().toString().equals(""))
+        {
+            Intent it =new Intent();
+            it.setClass(Waiter.this,OrderActivity.class);
+            it.putExtra("clientname",customerName.getText().toString());
+            it.putExtra("clienttel",customerTel.getText().toString());
+            startActivity(it);
+        }
+        else{
+            Toast.makeText(Waiter.this,"請輸入完整資料",Toast.LENGTH_LONG).show();
+        }
     }
     //設定桌號
     public void setFragmentTableNumber(){

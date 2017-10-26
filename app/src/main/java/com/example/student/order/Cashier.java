@@ -5,20 +5,30 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static android.graphics.Color.parseColor;
+import static android.util.Log.w;
 
 
 public class Cashier extends AppCompatActivity {
+    private static final String TAG = "Cashier";
     private TextView txtNumber, txtName, txtDate;
     TabHost mTabHost;
     private TabHost.TabSpec spec;
@@ -31,8 +41,6 @@ public class Cashier extends AppCompatActivity {
     int RECODE_IN=1001;
     int RECODE_OUT=1002;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +48,7 @@ public class Cashier extends AppCompatActivity {
 
         findView();
         readSharePreferences();
+        readFirebase();
         tabSettings("eatIn",R.id.tabIn,"內用");
         tabSettings("takeAway",R.id.tabOut,"外帶");
         changeTabBackgroundOnChanged();
@@ -47,8 +56,8 @@ public class Cashier extends AppCompatActivity {
 
     public void findView(){
 
-        inlistview=(ListView)findViewById(R.id.inlistview);
         outlistview=(ListView)findViewById(R.id.outlistview);
+        inlistview=(ListView)findViewById(R.id.inlistview);
         txtDate = (TextView) findViewById(R.id.txtDate);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
         Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
@@ -60,22 +69,22 @@ public class Cashier extends AppCompatActivity {
         mTabHost.setup();
 
         out_list=new ArrayList<>();
-        out_orderlist=new Order("1061025001","王小名",100,3);
-        out_list.add(out_orderlist);
+        //out_orderlist=new Order("1061025001","王小名",100,3);
+        //out_list.add(out_orderlist);
         outcashierAdapter=new OutCashierAdapter(this,out_list);
         outlistview.setAdapter(outcashierAdapter);
         outcashierAdapter.notifyDataSetChanged();
         //外帶類型
 
         in_list=new ArrayList<>();
-        in_orderlist=new Order("A","1061025002",100,2);
-        in_list.add(in_orderlist);
-        in_orderlist=new Order("B","1061025003",200,2);
-        in_list.add(in_orderlist);
-        in_orderlist=new Order("C","1061025004",300,2);
-        in_list.add(in_orderlist);
-        in_orderlist=new Order("D","1061025005",400,2);
-        in_list.add(in_orderlist);
+        //in_orderlist=new Order("A","1061025002",100,2);
+        //in_list.add(in_orderlist);
+        //in_orderlist=new Order("B","1061025003",200,2);
+        //in_list.add(in_orderlist);
+        //in_orderlist=new Order("C","1061025004",300,2);
+        //in_list.add(in_orderlist);
+        //in_orderlist=new Order("D","1061025005",400,2);
+        //in_list.add(in_orderlist);
 
         incashierAdapter=new InCashierAdapter(this,in_list);
         inlistview.setAdapter(incashierAdapter);
@@ -88,8 +97,9 @@ public class Cashier extends AppCompatActivity {
         inlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int a, long l) {
-
                 in_index=a;
+                Order inOrder = in_list.get(in_index);
+                Log.w("---in pop---", inOrder.str_Order + "--" + String.valueOf(inOrder.i_money));
                 Intent it =new Intent();
                 it.setClass(Cashier.this,Menu_context.class);
                 startActivityForResult(it,RECODE_IN);
@@ -99,8 +109,6 @@ public class Cashier extends AppCompatActivity {
         outlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
                 out_index=i;
                 Intent it2 =new Intent();
                 it2.setClass(Cashier.this,Menu_context.class);
@@ -177,6 +185,47 @@ public class Cashier extends AppCompatActivity {
         });
     }
 
+    public void readFirebase(){
+        final ArrayList<String> strOrderJason = new ArrayList<>();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference order = database.getReference("order");
+        order.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    String dbOrder = data.getKey(); //訂單編號
+                    Log.w("FireBaseTraining", "No = " + dbOrder);
+                    String order_string = data.getValue().toString();   //一筆訂單的 Json Data
+                    strOrderJason.add(order_string);
+                    Log.w("FireBaseTraining", "value = " + order_string);
+                }
+                for (String strOrder: strOrderJason){
+                    Gson gson = new Gson();
+                    Order[] orderArray;     //一筆訂單中的 點菜內容
+                    orderArray = gson.fromJson(strOrder, Order[].class);
+                    if (orderArray[0].str_Flag == 1){
+                        in_list.add(orderArray[0]);
+                        Log.w("....in....", String.valueOf(orderArray[0].str_Flag));
+                    }
+                    else {
+                        out_list.add(orderArray[0]);
+                        Log.w(".....out...", String.valueOf(orderArray[0].str_Flag));
+                    }
+                }
+                incashierAdapter.notifyDataSetChanged();
+                outcashierAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+    }
 }
 
 
