@@ -192,6 +192,12 @@ public class SeatItem extends AppCompatActivity implements View.OnClickListener 
             DatabaseReference order_Ref = database.getReference("order").child(thisOrder.str_Order);
             order_Ref.setValue(OrderStr);
             //return;
+            Intent in = getIntent();
+            in.putExtra("In_Order_Number", thisOrder.str_Order);
+            in.putExtra("In_Order_People", thisOrder.people_number);
+            in.putExtra("In_Order_Status", thisOrder.i_status);
+            in.putExtra("In_Order_Table", thisOrder.i_table);
+            setResult(RESULT_OK,in);
             finish();
         } else {
             Intent in=new Intent();

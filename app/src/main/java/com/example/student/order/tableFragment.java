@@ -11,6 +11,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import static android.app.Activity.RESULT_OK;
 import static android.graphics.Color.parseColor;
 
 
@@ -35,7 +36,6 @@ public class tableFragment extends Fragment implements View.OnClickListener {
     public void onStart() {
         super.onStart();
         initial();
-
     }
 
     public void initial(){
@@ -56,10 +56,49 @@ public class tableFragment extends Fragment implements View.OnClickListener {
         Intent in=new Intent();
         in.putExtra("tableNo",tableNumber.getText().toString());
         in.setClass(getActivity(),SeatItem.class);
-        startActivity(in);
+        startActivityForResult(in,1);
     }
 
     public void setTableNumber(CharSequence tableNo){
         tableNumber.setText(tableNo);
+    }
+
+    public void setTableOrderNumber(CharSequence orderNo){
+        orderNumber.setText(orderNo);
+    }
+
+    public void setTableStatus(int iStatus){
+        switch (iStatus){
+            case 1:
+                tableStatus.setText("出菜中");
+                break;
+            case 2:
+                tableStatus.setText("待結帳");
+                break;
+            case 3:
+                tableStatus.setText("已結帳");
+                break;
+        }
+    }
+
+    public void setTablePeople(String iPeople){
+        guestNumber.setText(iPeople);
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
+            setTableNumber(data.getStringExtra("In_Order_Table"));
+            setTablePeople(data.getStringExtra("In_Order_People"));
+            //(1.出菜中(訂單成立) 2.待結帳(廚房已出菜) 3.已結帳(收銀完畢)
+            int iStatus = data.getIntExtra("In_Order_Status", 0);
+            setTableStatus(iStatus);
+            //
+            setTableOrderNumber(data.getStringExtra("In_Order_Number"));
+        }
     }
 }

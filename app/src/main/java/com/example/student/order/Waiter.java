@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -11,9 +12,15 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static android.graphics.Color.parseColor;
@@ -36,12 +43,10 @@ public class Waiter extends AppCompatActivity {
 
         findView();
         readSharePreferences();
+        //readFirebaseData();
         tabSettings("eat in",R.id.tab_eatIn,"內用");
         tabSettings("take away",R.id.tab_takeAway,"外帶");
         changeTabBackgroundOnChanged();
-
-
-
     }
 
     @Override
@@ -72,7 +77,6 @@ public class Waiter extends AppCompatActivity {
         tableNo7=(tableFragment)getSupportFragmentManager().findFragmentById(R.id.table7);
         tableNo8=(tableFragment)getSupportFragmentManager().findFragmentById(R.id.table8);
         tableNo9=(tableFragment)getSupportFragmentManager().findFragmentById(R.id.table9);
-
     }
 
     public void readSharePreferences(){
@@ -145,6 +149,56 @@ public class Waiter extends AppCompatActivity {
         tableNo7.setTableNumber("G");
         tableNo8.setTableNumber("H");
         tableNo9.setTableNumber("I");
+    }
+
+    //設定顯示資料
+    public void setFragmentTableInfo(String strTable){
+
+
+    }
+
+    public void readFirebaseData(){
+        final ArrayList<String> strOrderJason = new ArrayList<>();
+        ArrayList<Order> orderTable = new ArrayList<>();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference order = database.getReference("order");
+        order.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    String dbOrder = data.getKey(); //訂單編號
+                    Log.w("FireBaseTraining", "No = " + dbOrder);
+                    String order_string = data.getValue().toString();   //一筆訂單的 Json Data
+                    strOrderJason.add(order_string);
+                    Log.w("FireBaseTraining", "value = " + order_string);
+                }
+                for (String strOrder: strOrderJason){
+                    Gson gson = new Gson();
+                    Order[] orderArray;     //一筆訂單中的 點菜內容
+                    orderArray = gson.fromJson(strOrder, Order[].class);
+                    Log.w("orderArray-------->", String.valueOf(orderArray.length));
+                    for (int x=0; x<orderArray.length; x++){
+                        if (orderArray[x].str_Flag == 1){   //內用
+                            if (orderArray[x].i_status != 3){       //出菜中 or 待結帳
+                                Log.w("....in....", String.valueOf(orderArray[x].i_table));
+                            }
+                        }
+                        else {  //外帶
+                            Log.w(".....out...", String.valueOf(orderArray[x].str_Flag));
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("tableFragment", "Failed to read value.", error.toException());
+            }
+        });
     }
 
 }
