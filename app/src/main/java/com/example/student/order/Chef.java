@@ -2,6 +2,7 @@ package com.example.student.order;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -42,10 +43,23 @@ public class Chef extends AppCompatActivity {
         cook_listItem.put(cook_listGroup.get(1),list1);
         cook_listItem.put(cook_listGroup.get(2),list1);
 
-
-
         adapter=new ChefExpandListAdapter(this,cook_listGroup,cook_listItem);
         cookList.setAdapter(adapter);
+        cookList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                return false;
+            }
+        });
+        cookList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                return true;
+            }
+        });
+
+
+
 
     }
 
