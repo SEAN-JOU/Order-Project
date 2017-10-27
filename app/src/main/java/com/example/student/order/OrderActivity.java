@@ -186,8 +186,12 @@ public class OrderActivity extends Activity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     //firebase上傳的地方
-                    orderOut();
-                    startActivity(new Intent(OrderActivity.this, Waiter.class));
+                    if (itemArray.size() > 0) {
+                        orderOut();
+                        startActivity(new Intent(OrderActivity.this, Waiter.class));
+                    } else{
+                        finish();
+                    }
                 }});
             Outoder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
                 @Override
@@ -196,18 +200,20 @@ public class OrderActivity extends Activity {
                 }});
             Outoder.show();
         } else{ //內用
-            for(int i=0; i< itemArray.size(); i++) {
-                itemArray.get(i).strPosition = strSetNum;
-                itemArray.get(i).strtable = strTableNum;
-                Log.w("OrderActivity----", itemArray.get(i).strItem + ":" + itemArray.get(i).str_remarks);
-            }
+            if (itemArray.size() > 0){
+                for(int i=0; i< itemArray.size(); i++) {
+                    itemArray.get(i).strPosition = strSetNum;
+                    itemArray.get(i).strtable = strTableNum;
+                    Log.w("OrderActivity----", itemArray.get(i).strItem + ":" + itemArray.get(i).str_remarks);
+                }
 
-            String orderStr = gson.toJson(itemArray);
-            Log.d("order_itemString", orderStr);
-            Intent in = getIntent();
-            in.putExtra("order_itemString", orderStr);
-            //in.putExtra("order_items", itemArray);
-            setResult(RESULT_OK,in);
+                String orderStr = gson.toJson(itemArray);
+                Log.d("order_itemString", orderStr);
+                Intent in = getIntent();
+                in.putExtra("order_itemString", orderStr);
+                //in.putExtra("order_items", itemArray);
+                setResult(RESULT_OK,in);
+            }
             finish();
         }
     }
@@ -231,7 +237,7 @@ public class OrderActivity extends Activity {
         ArrayList<Order> orderArr = new ArrayList<>();
         orderArr.add(thisOrder);
         String OrderStr = gson.toJson(orderArr);
-        Log.w("SearItem->", OrderStr);
+        Log.w("SendItem->", OrderStr);
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();

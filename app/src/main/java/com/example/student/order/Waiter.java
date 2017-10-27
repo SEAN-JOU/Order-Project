@@ -33,6 +33,7 @@ public class Waiter extends AppCompatActivity {
     private tableFragment tableNo1,tableNo2,tableNo3,tableNo4,tableNo5,tableNo6,tableNo7,tableNo8,tableNo9;
     DatabaseReference root;
     EditText customerName,customerTel;
+    final ArrayList<String> strOrderJason = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class Waiter extends AppCompatActivity {
 
         findView();
         readSharePreferences();
-        //readFirebaseData();
+        readFirebaseData();
         tabSettings("eat in",R.id.tab_eatIn,"內用");
         tabSettings("take away",R.id.tab_takeAway,"外帶");
         changeTabBackgroundOnChanged();
@@ -152,13 +153,58 @@ public class Waiter extends AppCompatActivity {
     }
 
     //設定顯示資料
-    public void setFragmentTableInfo(String strTable){
-
+    public void setFragmentTableInfo(String strTable, String strPeople, int iStatus, String strOrderNum){
+        switch(strTable){
+            case "A":
+                tableNo1.setTablePeople(strPeople);
+                tableNo1.setTableStatus(iStatus);
+                tableNo1.setTableOrderNumber(strOrderNum);
+                break;
+            case "B":
+                tableNo2.setTablePeople(strPeople);
+                tableNo2.setTableStatus(iStatus);
+                tableNo2.setTableOrderNumber(strOrderNum);
+                break;
+            case "C":
+                tableNo3.setTablePeople(strPeople);
+                tableNo3.setTableStatus(iStatus);
+                tableNo3.setTableOrderNumber(strOrderNum);
+                break;
+            case "D":
+                tableNo4.setTablePeople(strPeople);
+                tableNo4.setTableStatus(iStatus);
+                tableNo4.setTableOrderNumber(strOrderNum);
+                break;
+            case "E":
+                tableNo5.setTablePeople(strPeople);
+                tableNo5.setTableStatus(iStatus);
+                tableNo5.setTableOrderNumber(strOrderNum);
+                break;
+            case "F":
+                tableNo6.setTablePeople(strPeople);
+                tableNo6.setTableStatus(iStatus);
+                tableNo6.setTableOrderNumber(strOrderNum);
+                break;
+            case "G":
+                tableNo7.setTablePeople(strPeople);
+                tableNo7.setTableStatus(iStatus);
+                tableNo7.setTableOrderNumber(strOrderNum);
+                break;
+            case "H":
+                tableNo8.setTablePeople(strPeople);
+                tableNo8.setTableStatus(iStatus);
+                tableNo8.setTableOrderNumber(strOrderNum);
+                break;
+            case "I":
+                tableNo9.setTablePeople(strPeople);
+                tableNo9.setTableStatus(iStatus);
+                tableNo9.setTableOrderNumber(strOrderNum);
+                break;
+        }
 
     }
 
     public void readFirebaseData(){
-        final ArrayList<String> strOrderJason = new ArrayList<>();
         ArrayList<Order> orderTable = new ArrayList<>();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference order = database.getReference("order");
@@ -169,10 +215,10 @@ public class Waiter extends AppCompatActivity {
                 // whenever data at this location is updated.
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     String dbOrder = data.getKey(); //訂單編號
-                    Log.w("FireBaseTraining", "No = " + dbOrder);
+                    //Log.w("FireBaseTraining", "No = " + dbOrder);
                     String order_string = data.getValue().toString();   //一筆訂單的 Json Data
                     strOrderJason.add(order_string);
-                    Log.w("FireBaseTraining", "value = " + order_string);
+                    //Log.w("FireBaseTraining", "value = " + order_string);
                 }
                 for (String strOrder: strOrderJason){
                     Gson gson = new Gson();
@@ -183,7 +229,11 @@ public class Waiter extends AppCompatActivity {
                         if (orderArray[x].str_Flag == 1){   //內用
                             if (orderArray[x].i_status != 3){       //出菜中 or 待結帳
                                 Log.w("....in....", String.valueOf(orderArray[x].i_table));
+                                setFragmentTableInfo(orderArray[x].i_table, orderArray[x].people_number, orderArray[x].i_status, orderArray[x].str_Order);
+                            } else{ //i_status=3--->已結帳,空桌
+                                setFragmentTableInfo(orderArray[x].i_table, "0", orderArray[x].i_status, "");
                             }
+
                         }
                         else {  //外帶
                             Log.w(".....out...", String.valueOf(orderArray[x].str_Flag));

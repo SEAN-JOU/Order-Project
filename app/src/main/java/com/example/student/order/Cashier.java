@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static android.graphics.Color.parseColor;
-import static android.util.Log.w;
 
 
 public class Cashier extends AppCompatActivity {
@@ -308,7 +307,7 @@ public class Cashier extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                w(TAG, "Failed to read value.", error.toException());
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
 
