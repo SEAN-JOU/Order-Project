@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +41,9 @@ public class Cashier extends AppCompatActivity {
     int in_index,out_index;
     int RECODE_IN=1001;
     int RECODE_OUT=1002;
+    private Gson gson = new Gson();
+    public Order inOrder,outOrder;
+    public ArrayList<ArrayList<OrderItems>> item_array;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +102,43 @@ public class Cashier extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int a, long l) {
                 in_index=a;
-                Order inOrder = in_list.get(in_index);
+                inOrder = in_list.get(in_index);
                 Log.w("---in pop---", inOrder.str_Order + "--" + String.valueOf(inOrder.i_money));
                 Intent it =new Intent();
+                it.putExtra("total_money",String.valueOf(inOrder.i_money));
+                it.putExtra("order_table",inOrder.getI_table());
+                it.putExtra("check_out",inOrder.getStr_cashier());
+                it.putExtra("server",inOrder.getStr_waiter());
+                it.putExtra("order_number",inOrder.getI_Order());
+
+                ArrayList<ArrayList<OrderItems>> item_array =inOrder.getOrderItems();
+                ArrayList<OrderItems> aarray1=new ArrayList<>();
+                ArrayList<OrderItems> aarray2=new ArrayList<>();
+                ArrayList<OrderItems> aarray3=new ArrayList<>();
+                ArrayList<OrderItems> aarray4=new ArrayList<>();
+
+                aarray1=item_array.get(0);
+                aarray2=item_array.get(1);
+                aarray3=item_array.get(2);
+                aarray4=item_array.get(3);
+
+                String orderStr = gson.toJson(aarray1);
+                it.putExtra("order_itemString",orderStr);
+                String orderStr1 = gson.toJson(aarray2);
+                it.putExtra("order_itemString1",orderStr1);
+                String orderStr2 = gson.toJson(aarray3);
+                it.putExtra("order_itemString2",orderStr2);
+                String orderStr3 = gson.toJson(aarray4);
+                it.putExtra("order_itemString3",orderStr3);
+
+
                 it.setClass(Cashier.this,Menu_context.class);
                 startActivityForResult(it,RECODE_IN);
+
+
+
+                inlistview.setAdapter(incashierAdapter);
+                incashierAdapter.notifyDataSetChanged();
 
             }});
 
@@ -110,9 +146,35 @@ public class Cashier extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 out_index=i;
-                Intent it2 =new Intent();
-                it2.setClass(Cashier.this,Menu_context.class);
-                startActivityForResult(it2,RECODE_OUT);
+                Intent it =new Intent();
+                outOrder= out_list.get(out_index);
+                Log.w("---in pop---", outOrder.str_Order + "--" + String.valueOf(outOrder.i_money));
+
+
+                it.putExtra("inorout","in");//內用外帶的判斷
+
+
+                it.putExtra("total_money",String.valueOf(outOrder.i_money));
+                it.putExtra("order_table",outOrder.getI_table());
+                it.putExtra("check_out",outOrder.getStr_cashier());
+                it.putExtra("server",outOrder.getStr_waiter());
+                it.putExtra("order_number",outOrder.getI_Order());
+
+                ArrayList<ArrayList<OrderItems>> item_array =outOrder.getOrderItems();
+                ArrayList<OrderItems> aarray1=new ArrayList<>();
+
+                aarray1=item_array.get(0);
+
+
+                String orderStr = gson.toJson(aarray1);
+                it.putExtra("out_order_itemString",orderStr);
+
+
+                it.setClass(Cashier.this,Menu_context.class);
+                startActivityForResult(it,RECODE_OUT);
+
+
+
 
             }});
 
@@ -130,20 +192,43 @@ public class Cashier extends AppCompatActivity {
 
         if(resultCode == RESULT_OK && requestCode == RECODE_OUT){
 
+
             int status_out =Integer.valueOf(data.getStringExtra("已結帳"));
             ((Order)out_list.get(out_index)).i_status=status_out;
-            outcashierAdapter.notifyDataSetChanged();
-        }
+            Order checkedOrder = out_list.get(out_index);
+            ArrayList<Order> orderArr = new ArrayList<>();
+            orderArr.add(checkedOrder);
+            String OrderStr = gson.toJson(orderArr);
+            Log.w("SearItem->", OrderStr);
 
+            // Write a message to the database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference order_Ref = database.getReference("order").child(outOrder.getI_Order());
+            order_Ref.setValue(OrderStr);
+            outcashierAdapter.notifyDataSetChanged();
+
+
+
+        }
         else if(resultCode == RESULT_OK && requestCode == RECODE_IN) {
+            in_list.get(in_index).i_status=3;
 
             int status_in =Integer.valueOf(data.getStringExtra("已結帳"));
+
+
             ((Order)in_list.get(in_index)).i_status=status_in;
+            Order checkedOrder = in_list.get(in_index);
+            ArrayList<Order> orderArr = new ArrayList<>();
+            orderArr.add(checkedOrder);
+            String OrderStr = gson.toJson(orderArr);
+            Log.w("SearItem->", OrderStr);
+
+            // Write a message to the database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference order_Ref = database.getReference("order").child(inOrder.getI_Order());
+            order_Ref.setValue(OrderStr);
             incashierAdapter.notifyDataSetChanged();
-
-
-        }
-    }
+        }}
 
     //設定tab
     public void tabSettings(String tabTagName, int id,String name){
@@ -184,6 +269,8 @@ public class Cashier extends AppCompatActivity {
             }
         });
     }
+
+
 
     public void readFirebase(){
         final ArrayList<String> strOrderJason = new ArrayList<>();
