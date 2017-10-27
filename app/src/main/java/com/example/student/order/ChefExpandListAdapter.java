@@ -14,40 +14,47 @@ import java.util.HashMap;
 
 public class ChefExpandListAdapter extends BaseExpandableListAdapter {
     private Activity act;
-    private ArrayList<String> ListTitle;
+    private ArrayList<Order> OrderList;
     private HashMap<String,ArrayList<OrderItems>> ListItem;
     private TextView listContent;
     private TextView listTitle;
     private OrderItems getCh;
+   // private ArrayList<ArrayList<OrderItems>> array_Seat;
     private ArrayList<OrderItems> array_OderItems;
 
 
-
-    public ChefExpandListAdapter(Activity activity,ArrayList listTitle,HashMap listItem){
+    public ChefExpandListAdapter(Activity activity,ArrayList order){
         this.act=activity;
-        this.ListTitle=listTitle;
-        this.ListItem=listItem;
+        this.OrderList=order;
+        //this.ListItem=listItem;
+
     }
 
 
     @Override
     public int getGroupCount() {
-        return ListTitle.size();
+        return OrderList.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return ListItem.get(ListTitle.get(groupPosition)).size();
+        int count=0;
+        for(int i=0;i<OrderList.get(groupPosition).orderItems.size();i++){
+            count+=OrderList.get(groupPosition).orderItems.get(i).size();
+        }
+        return count;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return ListTitle.get(groupPosition);
+        return OrderList.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return ListItem.get(ListTitle.get(groupPosition)).get(childPosition);
+
+        return childPosition;
+
     }
 
     @Override
@@ -63,31 +70,38 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(final int groupPosition, boolean isExpanded, View view, ViewGroup viewGroup) {
-        String OrderNmuber =(String)getGroup(groupPosition);
         View v=act.getLayoutInflater().inflate(R.layout.cook_listgroup_layout,null);
         listTitle=(TextView)v.findViewById(R.id.listTitle);
-        listTitle.setText(OrderNmuber);
-
+        listTitle.setText(OrderList.get(groupPosition).getI_Order());
         return v;
 
     }
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean b, View view, ViewGroup viewGroup) {
-        getCh=(OrderItems) getChild(groupPosition,childPosition);
-        final String OrderContent=getCh.strItem;
-        final String remark=getCh.str_remarks;
-        String isNull=null;
-        final boolean isCooked=getCh.isCooked;
+
+        //String isNull=null;
+        //final boolean isCooked=getCh.isCooked;
         array_OderItems=new ArrayList<>();
-        array_OderItems.add(getCh);
         View v=act.getLayoutInflater().inflate(R.layout.cook_list_layout,null);
         listContent=(TextView) v.findViewById(R.id.listContent);
-        if(remark==isNull){
-            listContent.setText(OrderContent);
-        }else{
-            listContent.setText(OrderContent+"  "+remark);
+        for(int i=0;i<OrderList.get(groupPosition).orderItems.size();i++){
+            for(int j=0;j<OrderList.get(groupPosition).orderItems.get(i).size();j++){
+                array_OderItems.add(OrderList.get(groupPosition).orderItems.get(i).get(j));
+            }
         }
+        OrderItems mealContent=array_OderItems.get(childPosition);
+        final String remark=mealContent.str_remarks;
+        Log.d("remark","remark:"+remark);
+       if(remark.equals(null)){
+           listContent.setText(array_OderItems.get(childPosition).strItem);
+        }else{
+           listContent.setText(array_OderItems.get(childPosition).strItem+"  備註：　"+remark);
+        }
+
+
+        //listContent.setText(array_OderItems.get(childPosition).strItem);
+
 
         //設定隔行背景色
         if(childPosition%2==1){
@@ -96,19 +110,20 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
             listContent.setBackgroundColor(Color.parseColor("#90E6E6E6"));
         }
         //判斷菜單狀態
-        if(isCooked){
+       /* if(isCooked){
             listContent.setVisibility(View.GONE);
-        }
+        }*/
 
         //點擊時更改狀態
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.setBackgroundColor(Color.parseColor("#000000"));
-                getCh.isCooked=true;
-                Log.d("child","child2:"+groupPosition);
-                Log.d("child","child3:"+childPosition);
-                Log.d("child","child4:"+getCh.isCooked);
+                Log.w("list","listadapter:"+OrderList.get(groupPosition).orderItems.size());
+                //getCh.isCooked=true;
+                //Log.d("child","child2:"+groupPosition);
+                //Log.d("child","child3:"+childPosition);
+                //Log.d("child","child4:"+getCh.isCooked);
             }
         });
 
