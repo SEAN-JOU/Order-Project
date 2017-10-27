@@ -129,9 +129,9 @@ public class SeatItem extends AppCompatActivity implements View.OnClickListener 
         for(int i=0; i<tabHost_seat.getTabWidget().getTabCount();i++){
             TextView tv=tabHost_seat.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(parseColor("#ffffff"));
-            tv.setTextSize(25);
+            tv.setTextSize(20);
             tabHost_seat.getTabWidget().getChildAt(tabHost_seat.getCurrentTab()).setBackgroundColor(parseColor("#99fdad0c"));
-            tabHost_seat.getTabWidget().getChildAt(i).getLayoutParams().height = 140;
+            tabHost_seat.getTabWidget().getChildAt(i).getLayoutParams().height = 100;
             if(i==0){
                 tabHost_seat.getTabWidget().getChildAt(i).setBackgroundColor(parseColor("#99ff504d"));
             }else if(i==1){
@@ -239,24 +239,27 @@ public class SeatItem extends AppCompatActivity implements View.OnClickListener 
                         case 0:
                             order_Iitems_Array1.add(item.strItem);
                             orderItemsesArr1.add(item);
+                            setFragmentOrderList();
                             break;
                         case 1:
                             order_Iitems_Array2.add(item.strItem);
                             orderItemsesArr2.add(item);
+                            setFragmentOrderList();
                             break;
                         case 2:
                             order_Iitems_Array3.add(item.strItem);
                             orderItemsesArr3.add(item);
+                            setFragmentOrderList();
                             break;
                         case 3:
                             order_Iitems_Array4.add(item.strItem);
                             orderItemsesArr4.add(item);
+                            setFragmentOrderList();
                             break;
                     }
                 }
             }
         }
-        setFragmentOrderList();
     }
 
     @Override

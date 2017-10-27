@@ -107,12 +107,12 @@ public class OrderActivity extends Activity {
             outout.setVisibility(View.VISIBLE);
             txtCname = (TextView) findViewById(R.id.clientclient);
             txtCname.setText(strCname);
-            inin.setVisibility(View.INVISIBLE);
+            inin.setVisibility(View.GONE);
         } else {
             inin.setVisibility(View.VISIBLE);
             txtSetNum = (TextView) findViewById(R.id.tableNumber_seatPage);
             txtSetNum.setText(strSetNum);
-            outout.setVisibility(View.INVISIBLE);
+            outout.setVisibility(View.GONE);
         }
         //員工編號
         txtNumber = (TextView) findViewById(R.id.txtNumber);
@@ -189,7 +189,6 @@ public class OrderActivity extends Activity {
                     if (itemArray.size() > 0) {
                         orderOut();
                         startActivity(new Intent(OrderActivity.this, Waiter.class));
-                    } else{
                         finish();
                     }
                 }});

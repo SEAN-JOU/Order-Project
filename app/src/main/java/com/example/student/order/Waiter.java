@@ -228,7 +228,7 @@ public class Waiter extends AppCompatActivity {
                     for (int x=0; x<orderArray.length; x++){
                         if (orderArray[x].str_Flag == 1){   //內用
                             if (orderArray[x].i_status != 3){       //出菜中 or 待結帳
-                                Log.w("....in....", String.valueOf(orderArray[x].i_table));
+                                //Log.w("....in....", String.valueOf(orderArray[x].i_table));
                                 setFragmentTableInfo(orderArray[x].i_table, orderArray[x].people_number, orderArray[x].i_status, orderArray[x].str_Order);
                             } else{ //i_status=3--->已結帳,空桌
                                 setFragmentTableInfo(orderArray[x].i_table, "0", orderArray[x].i_status, "");
@@ -236,7 +236,7 @@ public class Waiter extends AppCompatActivity {
 
                         }
                         else {  //外帶
-                            Log.w(".....out...", String.valueOf(orderArray[x].str_Flag));
+                            //Log.w(".....out...", String.valueOf(orderArray[x].str_Flag));
                         }
                     }
 

@@ -18,7 +18,7 @@
                 android:id="@+id/tableNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:gravity="center"
                 android:textColor="#2d2d2d"
                 android:text="" />
@@ -52,7 +52,7 @@
                 android:id="@+id/tableStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:gravity="center"
                 android:textColor="#2d2d2d"
                 android:text="空桌" />
@@ -66,9 +66,10 @@
                 android:id="@+id/orderNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:gravity="center"
                 android:textColor="#2d2d2d"
+                android:padding="2dp"
                 android:text="" />
         </TableRow>
 

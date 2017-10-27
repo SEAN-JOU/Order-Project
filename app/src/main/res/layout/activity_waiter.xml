@@ -88,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
@@ -98,21 +98,21 @@
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                         <fragment
                             android:id="@+id/table2"
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                         <fragment
                             android:id="@+id/table3"
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                     </LinearLayout>
                     <LinearLayout
@@ -126,21 +126,21 @@
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                         <fragment
                             android:id="@+id/table5"
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                         <fragment
                             android:id="@+id/table6"
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                     </LinearLayout>
                     <LinearLayout
@@ -154,24 +154,23 @@
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                         <fragment
                             android:id="@+id/table8"
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                         <fragment
                             android:id="@+id/table9"
                             android:name="com.example.student.order.tableFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             tools:layout="@layout/fragment_table"/>
                     </LinearLayout>
-
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/tab_takeAway"

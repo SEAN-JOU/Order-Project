@@ -59,8 +59,14 @@ public class ScrollFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setSeatOrderList(ArrayList<String> OrderList){
-        adapter=new OrderListAdapter(getActivity(),R.layout.orderlistviewlayout,OrderList);
-        seatOrderList.setEmptyView(orderListEmpty);
-        seatOrderList.setAdapter(adapter);
+        if (adapter==null) {
+            adapter = new OrderListAdapter(getActivity(), R.layout.orderlistviewlayout, OrderList);
+            seatOrderList.setEmptyView(orderListEmpty);
+            seatOrderList.setAdapter(adapter);
+        } else
+        {
+            adapter.notifyDataSetChanged();
+        }
+
     }
 }
