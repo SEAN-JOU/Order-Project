@@ -18,6 +18,7 @@ import java.util.List;
 public class OrderListAdapter extends ArrayAdapter {
     private Activity act;
     private ArrayList<String> orderlist;
+    
     public OrderListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List objects) {
         super(context, resource, objects);
         this.act=(Activity) context;

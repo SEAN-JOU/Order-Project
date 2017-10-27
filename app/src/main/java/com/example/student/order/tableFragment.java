@@ -51,10 +51,11 @@ public class tableFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        tableStatusBackground.setBackgroundColor(parseColor("#99ff504d"));
-        tableStatus.setText("出菜中");
+        //tableStatusBackground.setBackgroundColor(parseColor("#99ff504d"));
+        //tableStatus.setText("出菜中");
         Intent in=new Intent();
         in.putExtra("tableNo",tableNumber.getText().toString());
+        in.putExtra("tableOrderNum", orderNumber.getText().toString());
         in.setClass(getActivity(),SeatItem.class);
         startActivityForResult(in,1);
     }
@@ -70,13 +71,14 @@ public class tableFragment extends Fragment implements View.OnClickListener {
     public void setTableStatus(int iStatus){
         switch (iStatus){
             case 1:
+                tableStatusBackground.setBackgroundColor(parseColor("#99ff504d"));
                 tableStatus.setText("出菜中");
                 break;
             case 2:
                 tableStatus.setText("待結帳");
                 break;
             case 3:
-                tableStatus.setText("已結帳");
+                tableStatus.setText("空桌");
                 break;
         }
     }
@@ -94,7 +96,7 @@ public class tableFragment extends Fragment implements View.OnClickListener {
         {
             setTableNumber(data.getStringExtra("In_Order_Table"));
             setTablePeople(data.getStringExtra("In_Order_People"));
-            //(1.出菜中(訂單成立) 2.待結帳(廚房已出菜) 3.已結帳(收銀完畢)
+            //(1.出菜中(訂單成立) 2.待結帳(廚房已出菜) 3.空桌/已結帳(收銀完畢)
             int iStatus = data.getIntExtra("In_Order_Status", 0);
             setTableStatus(iStatus);
             //
