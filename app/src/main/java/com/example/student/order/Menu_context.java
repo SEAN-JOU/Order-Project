@@ -66,27 +66,55 @@ public class Menu_context extends AppCompatActivity {
         for (int aa = 0; aa < orderArray.length; aa++) {
             String aaa = orderArray[aa].strItem;
             int bbb = orderArray[aa].i_money;
-            schedule_menu.add(aaa + "  " + bbb);
-        }
+            boolean i1 =orderArray[aa].isCooked;
+            if(i1){
+                String i2="已出菜";
+                schedule_menu.add(aaa + "  " + bbb + "                  "+i2);
+            }
+            else {
+                String i2="未出菜";
+                schedule_menu.add(aaa + "  " + bbb + "                  "+i2);
+        }}
 
 
         for (int aa = 0; aa < orderArray1.length; aa++) {
             String aaa = orderArray1[aa].strItem;
             int bbb = orderArray1[aa].i_money;
-            schedule_menu.add(aaa + "  " + bbb);
-        }
+            boolean i1 =orderArray[aa].isCooked;
+            if(i1){
+                String i2="已出菜";
+                schedule_menu.add(aaa + "  " + bbb + "                  "+i2);
+            }
+            else {
+                String i2="未出菜";
+                schedule_menu.add(aaa + "  " + bbb + "                  "+i2);
+        }}
 
         for (int aa = 0; aa < orderArray2.length; aa++) {
             String aaa = orderArray2[aa].strItem;
             int bbb = orderArray2[aa].i_money;
-            schedule_menu.add(aaa + "  " + bbb);
-        }
+            boolean i1 =orderArray[aa].isCooked;
+            if(i1){
+                String i2="已出菜";
+                schedule_menu.add(aaa + "  " + bbb + "                  "+i2);
+            }
+            else {
+                String i2="未出菜";
+                schedule_menu.add(aaa + "  " + bbb + "                  "+i2);
+        }}
 
         for (int aa = 0; aa < orderArray3.length; aa++) {
             String aaa = orderArray3[aa].strItem;
             int bbb = orderArray3[aa].i_money;
-            schedule_menu.add(aaa + "  " + bbb);
-        }
+            boolean i1 =orderArray[aa].isCooked;
+            if(i1){
+                String i2="已出菜";
+                schedule_menu.add(aaa + "  " + bbb + "                  "+i2);
+            }
+            else {
+                String i2="未出菜";
+                schedule_menu.add(aaa + "  " + bbb + "                  "+i2);
+            }}
 
         OrderListAdapter orderListAdapter = new OrderListAdapter(this, R.layout.orderlistviewlayout, schedule_menu);
         menuinformation.setAdapter(orderListAdapter);

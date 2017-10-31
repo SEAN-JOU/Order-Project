@@ -35,7 +35,6 @@ public class Cashier extends AppCompatActivity {
     InCashierAdapter incashierAdapter;
     OutCashierAdapter outcashierAdapter;
     ArrayList<Order> out_list,in_list;
-    Order out_orderlist,in_orderlist;
     int in_index,out_index;
     int RECODE_IN=1001;
     int RECODE_OUT=1002;
