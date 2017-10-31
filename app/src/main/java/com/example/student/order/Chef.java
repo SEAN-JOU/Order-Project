@@ -23,6 +23,7 @@ public class Chef extends AppCompatActivity {
     private HashMap<String, ArrayList<OrderItems>> cook_listItem;
     private OrderItems mealContent;
     private ArrayList<Order> orderList;
+    ArrayList<Order> arrShowOrder;
     private ArrayList<OrderItems> MealContent;
     private ArrayList<ArrayList<ArrayList<OrderItems>>> orderItemsListAll;
     private ArrayList<ArrayList<OrderItems>> orderItemsList;
@@ -40,13 +41,14 @@ public class Chef extends AppCompatActivity {
         cookList = (ExpandableListView) findViewById(R.id.cookList);
         // cook_listItem = new HashMap();
         orderList = new ArrayList<>();
-        MealContent=new ArrayList<>();
+        arrShowOrder=new ArrayList<>();
+        //MealContent=new ArrayList<>();
         //orderItemsListAll =new ArrayList<>();
-        orderItemsList =new ArrayList<>();
+        //orderItemsList =new ArrayList<>();
     }
 
     public void setCookList() {
-        adapter = new ChefExpandListAdapter(this, orderList);
+        adapter = new ChefExpandListAdapter(this, arrShowOrder);
         cookList.setAdapter(adapter);
 
         cookList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -55,6 +57,7 @@ public class Chef extends AppCompatActivity {
                 OrderItems oi = (OrderItems)adapter.getChild(groupPosition,childPosition);
                 oi.isCooked=true;
                 Order changeOrder=orderList.get(groupPosition); //取得修改狀態的order物件
+                changeOrder.i_status=2;
                 ArrayList<Order> tmpArray=new ArrayList<Order>(); //建立一個暫存陣列
                 tmpArray.add(changeOrder);   //把修改好的Order物件放入陣列
                 Gson gson = new Gson();
@@ -64,26 +67,12 @@ public class Chef extends AppCompatActivity {
                 order_Ref.setValue(OrderStr);
                 Log.w("OrderStr->", OrderStr);
                 Log.d("status","status2:"+oi.isCooked);
+                Log.d("status","status3:"+ changeOrder.i_status);
                 adapter.notifyDataSetChanged();
                 return true;
             }
         });
     }
-
-  /*int count=0;
-        for(int i = 0;i<array_OderItems.size();i++){
-            if(array_OderItems.get(i).isCooked){
-                count=count++;
-            }
-            if(count==array_OderItems.size()){
-                listTitle.setVisibility(view.GONE);
-                Log.d("test","ttest"+count);
-            }else{
-                listTitle.setText(OrderList.get(groupPosition).getI_Order());
-            }
-        }*/
-
-
 
     public void readFirebase() {
         final ArrayList<String> strOrderJason = new ArrayList<>(); //用來暫時存放jason抓下來的菜單內容
@@ -94,6 +83,7 @@ public class Chef extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 orderList.clear();
                 strOrderJason.clear();
+                arrShowOrder.clear();
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 for (DataSnapshot data : dataSnapshot.getChildren()) {  //取得order下的子項目
@@ -105,15 +95,31 @@ public class Chef extends AppCompatActivity {
                     Log.w("FireBaseTraining", "value = " + order_string);
                 }
 
-                for (String strOrder: strOrderJason){
+                for (String strOrder: strOrderJason) {
                     Gson gson = new Gson();
                     Order[] orderArray;
                     orderArray = gson.fromJson(strOrder, Order[].class); //把strOrderJason的全部資料都丟到Order陣列中
                     orderList.add(orderArray[0]);
                 }
-
-                Log.w("list","listmEALTotal:"+ MealContent.size());
-                Log.w("list","listChefTotal:"+ orderList.size());
+                Log.d("fire","size"+orderList.size());
+                for(int i=0;i<orderList.size();i++){
+                    Log.d("fire",""+orderList.get(i).str_Order);
+                    Log.d("fire",""+orderList.get(i).str_Flag);
+                    Log.d("fire",""+orderList.get(i).i_status);
+                    if(orderList.get(i).i_status==3){
+                        orderList.remove(i);
+                    }
+                    for(int j=0;j< orderList.get(i).orderItems.size();j++){
+                        for(int k=0;k<orderList.get(i).orderItems.get(j).size();k++){
+                            if(orderList.get(i).orderItems.get(j).get(k).isCooked!=true){
+                                arrShowOrder.add(orderList.get(i));
+                                break;
+                            }
+                            break;
+                        }
+                    }
+                }
+                //Log.w("FireBaseTraining", "arrShowOrder = " + arrShowOrder);
                 adapter.notifyDataSetChanged();
             }
 

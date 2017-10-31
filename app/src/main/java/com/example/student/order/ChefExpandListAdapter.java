@@ -100,7 +100,6 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
         }else {
             listContent.setBackgroundColor(Color.parseColor("#90E6E6E6"));
         }
-        Log.d("status","status:"+ array_OderItems.get(childPosition).isCooked);
         //判斷菜單狀態
         if(array_OderItems.get(childPosition).isCooked){
             listContent.setVisibility(View.GONE);
