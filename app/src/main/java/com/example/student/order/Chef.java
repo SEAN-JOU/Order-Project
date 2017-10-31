@@ -14,19 +14,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Chef extends AppCompatActivity {
     private static final String TAG = "Chef";
     private ExpandableListView cookList;
     private ChefExpandListAdapter adapter;
-    private HashMap<String, ArrayList<OrderItems>> cook_listItem;
-    private OrderItems mealContent;
     private ArrayList<Order> orderList;
-    ArrayList<Order> arrShowOrder;
-    private ArrayList<OrderItems> MealContent;
-    private ArrayList<ArrayList<ArrayList<OrderItems>>> orderItemsListAll;
-    private ArrayList<ArrayList<OrderItems>> orderItemsList;
+    ArrayList<Order> arrShowOrder,arrTmpSaveOrder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +34,9 @@ public class Chef extends AppCompatActivity {
 
     public void initial() {
         cookList = (ExpandableListView) findViewById(R.id.cookList);
-        // cook_listItem = new HashMap();
         orderList = new ArrayList<>();
         arrShowOrder=new ArrayList<>();
-        //MealContent=new ArrayList<>();
-        //orderItemsListAll =new ArrayList<>();
-        //orderItemsList =new ArrayList<>();
+        arrTmpSaveOrder=new ArrayList<>();
     }
 
     public void setCookList() {
@@ -84,6 +76,7 @@ public class Chef extends AppCompatActivity {
                 orderList.clear();
                 strOrderJason.clear();
                 arrShowOrder.clear();
+                arrTmpSaveOrder.clear();
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 for (DataSnapshot data : dataSnapshot.getChildren()) {  //取得order下的子項目
@@ -103,22 +96,36 @@ public class Chef extends AppCompatActivity {
                 }
                 Log.d("fire","size"+orderList.size());
                 for(int i=0;i<orderList.size();i++){
-                    Log.d("fire",""+orderList.get(i).str_Order);
-                    Log.d("fire",""+orderList.get(i).str_Flag);
-                    Log.d("fire",""+orderList.get(i).i_status);
-                    if(orderList.get(i).i_status==3){
-                        orderList.remove(i);
+                    //Log.d("fire",""+orderList.get(i).str_Order);
+                    //Log.d("fire",""+orderList.get(i).str_Flag);
+                    //Log.d("fire",""+orderList.get(i).i_status);
+                    if(orderList.get(i).i_status!=3){
+                        Log.d("fire",""+orderList.get(i).str_Order);
+                        arrTmpSaveOrder.add(orderList.get(i));
                     }
-                    for(int j=0;j< orderList.get(i).orderItems.size();j++){
-                        for(int k=0;k<orderList.get(i).orderItems.get(j).size();k++){
-                            if(orderList.get(i).orderItems.get(j).get(k).isCooked!=true){
-                                arrShowOrder.add(orderList.get(i));
+                }
+
+                for(int i=0;i<arrTmpSaveOrder.size();i++){   //未結帳的所有單單號log
+                    Log.d("fire","arrTmpSaveOrder"+arrTmpSaveOrder.get(i).str_Order);
+                }
+                for(int i=0;i< arrTmpSaveOrder.size();i++){  //orderItems.size()座位數
+                    Log.d("fire2","arrTmpSaveOrder i="+i + arrTmpSaveOrder.get(i).orderItems.size()); //每筆單的座位數=>內用=4，外帶=0
+                    for(int j=0;j<arrTmpSaveOrder.get(i).orderItems.size();j++){
+                        Log.d("fire3","arrTmpSaveOrder j=" + j ); //j只有第0筆
+                        Log.d("fire4","arrTmpSaveOrder j=" + j + "---" +arrTmpSaveOrder.get(i).orderItems.get(j).size()); //因為j只抓的到第0筆，所以這邊的orderItems.get(j).size()會是第0筆的size
+                        for(int k=0;k<arrTmpSaveOrder.get(i).orderItems.get(j).size();k++) {
+                           /* if(arrTmpSaveOrder.get(i).orderItems.get(j).size()==0){
+                                continue;
+                            }else */if (arrTmpSaveOrder.get(i).orderItems.get(j).get(k).isCooked != true) {
+                                arrShowOrder.add(arrTmpSaveOrder.get(i));
                                 break;
                             }
                             break;
                         }
+                        //break; 如果加break只要第一個座位沒點餐，就會break跳出不會繼續，就會少顯示一筆定單
                     }
                 }
+
                 //Log.w("FireBaseTraining", "arrShowOrder = " + arrShowOrder);
                 adapter.notifyDataSetChanged();
             }
