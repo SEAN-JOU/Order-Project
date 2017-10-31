@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -280,6 +279,9 @@ public class Cashier extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                in_list.clear();
+                out_list.clear();
+                strOrderJason.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     String dbOrder = data.getKey(); //訂單編號
                     Log.w("FireBaseTraining", "No = " + dbOrder);
