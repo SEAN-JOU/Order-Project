@@ -19,7 +19,7 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
     private TextView listContent;
     private TextView listTitle;
     private OrderItems getCh;
-   // private ArrayList<ArrayList<OrderItems>> array_Seat;
+    // private ArrayList<ArrayList<OrderItems>> array_Seat;
     private ArrayList<OrderItems> array_OderItems;
 
 
@@ -53,7 +53,7 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosition) {
 
-        return childPosition;
+        return array_OderItems.get(childPosition);
 
     }
 
@@ -74,14 +74,10 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
         listTitle=(TextView)v.findViewById(R.id.listTitle);
         listTitle.setText(OrderList.get(groupPosition).getI_Order());
         return v;
-
     }
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean b, View view, ViewGroup viewGroup) {
-
-        //String isNull=null;
-        //final boolean isCooked=getCh.isCooked;
         array_OderItems=new ArrayList<>();
         View v=act.getLayoutInflater().inflate(R.layout.cook_list_layout,null);
         listContent=(TextView) v.findViewById(R.id.listContent);
@@ -90,45 +86,26 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
                 array_OderItems.add(OrderList.get(groupPosition).orderItems.get(i).get(j));
             }
         }
-        OrderItems mealContent=array_OderItems.get(childPosition);
-        final String remark=mealContent.str_remarks;
-        Log.d("remark","remark:"+remark);
-       if(remark.equals(null)){
-           listContent.setText(array_OderItems.get(childPosition).strItem);
+        final String remark=array_OderItems.get(childPosition).str_remarks;
+        //設定備註
+        if(remark.equals("")){
+            listContent.setText(array_OderItems.get(childPosition).strItem);
+            Log.d("remark","remark:"+remark);
         }else{
-           listContent.setText(array_OderItems.get(childPosition).strItem+"  備註：　"+remark);
+            listContent.setText(array_OderItems.get(childPosition).strItem+"  　備註："+remark);
         }
-
-
-        //listContent.setText(array_OderItems.get(childPosition).strItem);
-
-
         //設定隔行背景色
         if(childPosition%2==1){
             listContent.setBackgroundColor(Color.parseColor("#80ff504d"));
         }else {
             listContent.setBackgroundColor(Color.parseColor("#90E6E6E6"));
         }
+        Log.d("status","status:"+ array_OderItems.get(childPosition).isCooked);
         //判斷菜單狀態
-       /* if(isCooked){
+        if(array_OderItems.get(childPosition).isCooked){
             listContent.setVisibility(View.GONE);
-        }*/
-
-        //點擊時更改狀態
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.setBackgroundColor(Color.parseColor("#000000"));
-                Log.w("list","listadapter:"+OrderList.get(groupPosition).orderItems.size());
-                //getCh.isCooked=true;
-                //Log.d("child","child2:"+groupPosition);
-                //Log.d("child","child3:"+childPosition);
-                //Log.d("child","child4:"+getCh.isCooked);
-            }
-        });
-
-
-         return v;
+        }
+        return v;
     }
 
 
@@ -144,3 +121,5 @@ public class ChefExpandListAdapter extends BaseExpandableListAdapter {
     }
 
 }
+
+

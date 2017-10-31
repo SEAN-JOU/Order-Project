@@ -3,6 +3,7 @@ package com.example.student.order;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,13 +21,11 @@ public class Chef extends AppCompatActivity {
     private ExpandableListView cookList;
     private ChefExpandListAdapter adapter;
     private HashMap<String, ArrayList<OrderItems>> cook_listItem;
-    //private Order orderList;
     private OrderItems mealContent;
     private ArrayList<Order> orderList;
-    private ArrayList<OrderItems> setMealContent;
+    private ArrayList<OrderItems> MealContent;
     private ArrayList<ArrayList<ArrayList<OrderItems>>> orderItemsListAll;
     private ArrayList<ArrayList<OrderItems>> orderItemsList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,59 +38,51 @@ public class Chef extends AppCompatActivity {
 
     public void initial() {
         cookList = (ExpandableListView) findViewById(R.id.cookList);
-        cook_listItem = new HashMap();
+        // cook_listItem = new HashMap();
         orderList = new ArrayList<>();
-        setMealContent=new ArrayList<>();
-        orderItemsListAll =new ArrayList<>();
+        MealContent=new ArrayList<>();
+        //orderItemsListAll =new ArrayList<>();
         orderItemsList =new ArrayList<>();
-
-
-        //因為有兩層，所以這邊要再new一次
-       // orderItemsList = new ArrayList<>();
-        //orderList.orderItems = orderItemsList;
-
-
-       /* if(checkIsCooked(setMealContent)){
-            orderList.str_Order="10240001";
-            orderList.orderItems.add(setMealContent);
-            cook_listGroup.add(orderList.str_Order);
-            orderList=new Order();
-            orderList.str_Order="10240002";
-            cook_listGroup.add(orderList.str_Order);
-            orderList=new Order();
-            orderList.str_Order="10240003";
-            cook_listGroup.add(orderList.str_Order);
-            cook_listItem.put(cook_listGroup.get(0),setMealContent);
-            cook_listItem.put(cook_listGroup.get(1),setMealContent);
-            cook_listItem.put(cook_listGroup.get(2),setMealContent);
-        }else{
-            orderList=new Order();
-            orderList.str_Order="10240002";
-            cook_listGroup.add(orderList.str_Order);
-            orderList=new Order();
-            orderList.str_Order="10240003";
-            cook_listGroup.add(orderList.str_Order);
-            cook_listItem.put(cook_listGroup.get(0),setMealContent);
-            cook_listItem.put(cook_listGroup.get(1),setMealContent);
-        }*/
-
     }
 
     public void setCookList() {
         adapter = new ChefExpandListAdapter(this, orderList);
         cookList.setAdapter(adapter);
 
-    }
-
-    //判斷出菜狀態，如果全出就不顯示該筆單號
-    public boolean checkIsCooked(ArrayList<OrderItems> al) {
-        for (OrderItems a : al) {
-            if (!a.isCooked) {  //只要有一道菜還沒出
+        cookList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                OrderItems oi = (OrderItems)adapter.getChild(groupPosition,childPosition);
+                oi.isCooked=true;
+                Order changeOrder=orderList.get(groupPosition); //取得修改狀態的order物件
+                ArrayList<Order> tmpArray=new ArrayList<Order>(); //建立一個暫存陣列
+                tmpArray.add(changeOrder);   //把修改好的Order物件放入陣列
+                Gson gson = new Gson();
+                String OrderStr = gson.toJson(tmpArray);  //把陣列轉成json字串
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference order_Ref = database.getReference("order").child(changeOrder.getI_Order()); //取得要修改的訂單單號
+                order_Ref.setValue(OrderStr);
+                Log.w("OrderStr->", OrderStr);
+                Log.d("status","status2:"+oi.isCooked);
+                adapter.notifyDataSetChanged();
                 return true;
             }
-        }
-        return false;
+        });
     }
+
+  /*int count=0;
+        for(int i = 0;i<array_OderItems.size();i++){
+            if(array_OderItems.get(i).isCooked){
+                count=count++;
+            }
+            if(count==array_OderItems.size()){
+                listTitle.setVisibility(view.GONE);
+                Log.d("test","ttest"+count);
+            }else{
+                listTitle.setText(OrderList.get(groupPosition).getI_Order());
+            }
+        }*/
+
 
 
     public void readFirebase() {
@@ -120,9 +111,9 @@ public class Chef extends AppCompatActivity {
                     orderArray = gson.fromJson(strOrder, Order[].class); //把strOrderJason的全部資料都丟到Order陣列中
                     orderList.add(orderArray[0]);
                 }
+
+                Log.w("list","listmEALTotal:"+ MealContent.size());
                 Log.w("list","listChefTotal:"+ orderList.size());
-
-
                 adapter.notifyDataSetChanged();
             }
 
