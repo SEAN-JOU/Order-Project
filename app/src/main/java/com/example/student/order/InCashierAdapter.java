@@ -23,6 +23,7 @@ public class InCashierAdapter extends BaseAdapter {
         this.orders=orders;
     }
 
+
     @Override
     public int getCount() {
         return orders.size();
